@@ -115,6 +115,7 @@ logger.info(f"count of zeros: {count}")
 from sklearn import metrics
 from keras.models import Model
 from keras.layers import Input, Dense
+import tensorflow as tf
 
 def keras_model(inputDim):
     inputLayer = Input(shape=(inputDim,))
@@ -129,6 +130,22 @@ def keras_model(inputDim):
     x = Dense(128, activation='relu')(x)
     x = Dense(inputDim, activation=None)(x) # or sigmoid
     return Model(inputs=inputLayer, outputs=x)
+
+def tf_keras_model(inputDim):
+    model = tf.keras.Sequential()
+    model.add(tf.keras.Input(shape=(inputDim,)))
+    model.add(tf.keras.layers.Dense(128, activation='relu'))
+    model.add(tf.keras.layers.Dense(128, activation='relu'))
+    model.add(tf.keras.layers.Dense(128, activation='relu'))
+    model.add(tf.keras.layers.Dense(128, activation='relu'))
+    model.add(tf.keras.layers.Dense(  8, activation='relu'))
+    model.add(tf.keras.layers.Dense(128, activation='relu'))
+    model.add(tf.keras.layers.Dense(128, activation='relu'))
+    model.add(tf.keras.layers.Dense(128, activation='relu'))
+    model.add(tf.keras.layers.Dense(128, activation='relu'))
+    model.add(tf.keras.layers.Dense(inputDim, activation=None))
+    return model
+
 
 model = keras_model(len(xlist_sum))
 # model.summary()
@@ -166,7 +183,7 @@ else:
     history = model.fit(train_data,
                         train_data,
                         epochs=100,
-                        batch_size=10,
+                        batch_size=12,
                         shuffle=True,
                         #validation_split=0.1,
                         verbose=0,
